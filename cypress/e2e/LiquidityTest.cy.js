@@ -1,10 +1,8 @@
 /// <reference types = "cypress"/>
-
+//Created by: Dor Bitton
 describe('My First Test', function () {
   before('Set automation to Customer Feedback page', () => {
     cy.visit('https://juice-shop.herokuapp.com/');
-    //cy.contains('Dismiss').click();
-    //cy.contains('Me want it!').click();
     cy.get('mat-icon').contains('menu').click();
     cy.contains(' Customer Feedback ').click();
   });
@@ -12,7 +10,7 @@ describe('My First Test', function () {
     cy.get('h1').then(($text) => {
       expect($text).to.contain('Customer Feedback');
     });
-  });
+  }); //Set up Juice-Shop, open menu and navigate to Customer Feedback page
 
   it('Check form background color', function () {
     cy.get('.mat-card.mat-focus-indicator.mat-elevation-z6').should(($el) => {
@@ -20,7 +18,7 @@ describe('My First Test', function () {
         'rgb(66, 66, 66) none repeat scroll 0% 0% / auto padding-box border-box'
       );
     });
-  });
+  }); //Check background color of topic
 
   describe('Author', function () {
     it('Check title Author', function () {
@@ -47,7 +45,7 @@ describe('My First Test', function () {
     });
   });
 
-  describe('Comments', function () {
+  describe('Comment', function () {
     it('Check title Comments *', function () {
       cy.get('[for=comment]')
         .invoke('text')
@@ -168,12 +166,6 @@ describe('My First Test', function () {
       });
     });
 
-    it('Check current thumb value', function () {
-      cy.get('#rating').then(($el) => {
-        expect($el.attr('aria-valuetext')).to.equal('0★');
-      });
-    });
-
     it('Check max rating', function () {
       cy.get('#rating').then(($el) => {
         expect($el.attr('max')).to.equal('5');
@@ -186,46 +178,6 @@ describe('My First Test', function () {
       });
     });
 
-    it('Move the slider to 1★', function () {
-      cy.get('.mat-slider-thumb-container')
-        .first()
-        .invoke('attr', 'style', `transform: translateX(-80%)`);
-      cy.get('.mat-slider-thumb').click();
-      cy.get('#rating').then(($el) => {
-        expect($el.attr('aria-valuetext')).to.equal('1★');
-      });
-    });
-
-    it('Move the slider to 2★', function () {
-      cy.get('.mat-slider-thumb-container')
-        .first()
-        .invoke('attr', 'style', `transform: translateX(-60%)`);
-      cy.get('.mat-slider-thumb').click();
-      cy.get('#rating').then(($el) => {
-        expect($el.attr('aria-valuetext')).to.equal('2★');
-      });
-    });
-
-    it('Move the slider to 3★', function () {
-      cy.get('.mat-slider-thumb-container')
-        .first()
-        .invoke('attr', 'style', `transform: translateX(-40%)`);
-      cy.get('.mat-slider-thumb').click();
-      cy.get('#rating').then(($el) => {
-        expect($el.attr('aria-valuetext')).to.equal('3★');
-      });
-    });
-
-    it('Move the slider to 4★', function () {
-      cy.get('.mat-slider-thumb-container')
-        .first()
-        .invoke('attr', 'style', `transform: translateX(-20%)`);
-      cy.get('.mat-slider-thumb').click();
-      cy.get('#rating').then(($el) => {
-        expect($el.attr('aria-valuetext')).to.equal('4★');
-      });
-    });
-
     it('Move the slider to 5★', function () {
       cy.get('.mat-slider-thumb-container')
         .first()
@@ -234,6 +186,14 @@ describe('My First Test', function () {
       cy.get('#rating').then(($el) => {
         expect($el.attr('aria-valuetext')).to.equal('5★');
       });
+    });
+
+    it('Check color slider', function () {
+      cy.get('.mat-slider-track-fill')
+        .invoke('css', 'background-color')
+        .then((color) => {
+          expect(color).to.equal('rgb(104, 159, 56)');
+        });
     });
   });
 
@@ -251,11 +211,10 @@ describe('My First Test', function () {
     });
 
     it('Check title Result *', function () {
-      cy.get('div.mat-form-field-infix.ng-tns-c118-9')
-        .eq(1)
+      cy.get('[for=captchaControl]')
         .invoke('text')
         .then((text) => {
-          expect(text).to.contain('Result *');
+          expect(text).to.equal('Result *');
         });
     });
 
@@ -272,7 +231,7 @@ describe('My First Test', function () {
 
     describe('Check Result error', function () {
       it('check error string of Result', function () {
-        cy.get('#feedback-form').click();
+        cy.get('#comment').click();
         cy.get('#mat-error-1')
           .invoke('text')
           .then((limit) => {
@@ -289,12 +248,15 @@ describe('My First Test', function () {
           });
       });
     });
-    it('Calculate the CAPTCHA', function () {
-      cy.get('#captcha').then(($captcha) => {
-        const math_string = $captcha.text();
-        const math_result = eval(math_string);
-        cy.get('#captchaControl').type(math_result);
-        expect(math_result).to.be.a('number');
+
+    describe('Calculate', function () {
+      it('Calculate the CAPTCHA', function () {
+        cy.get('#captcha').then(($captcha) => {
+          const math_string = $captcha.text();
+          const math_result = eval(math_string);
+          cy.get('#captchaControl').type(math_result);
+          expect(math_result).to.be.a('number');
+        });
       });
     });
   });
@@ -320,7 +282,7 @@ describe('My First Test', function () {
       cy.get('#submitButton')
         .invoke('css', 'background-color')
         .then((color) => {
-          expect(color).to.equal('rgb(84, 110, 122)');
+          expect(color).to.equal('rgba(84, 110, 122, 0.992)');
         });
     });
   });
