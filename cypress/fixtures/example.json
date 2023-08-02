@@ -1,0 +1,21 @@
+{
+  "device": {
+    "prices": ":nth-child(2) > h5",
+    "title": ":nth-child(2) > h4"
+  },
+  "login": {
+    "pressLogin": "#login2",
+    "userName": "automatedUser26@example.com",
+    "password": "4r4nd0mp4ssw0rd",
+    "loginCommand": "button[onclick='logIn()']"
+  },
+
+  "orderDetails": {
+    "name": "#name",
+    "country": "#country",
+    "city": "#city",
+    "creditCard": "#card",
+    "month": "#month",
+    "year": "#year"
+  }
+}
